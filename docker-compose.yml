@@ -1,0 +1,20 @@
+version: "3.1"
+services:
+  teamboards:
+    image: "${IMAGE_NAME}"
+    networks:
+      - backend
+    environment:
+      DB_URL_FILE: /run/secrets/mongodb_1
+    secrets:
+      - mongodb_1
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+secrets:
+  mongodb_1:
+    external: true
